@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="632.0" prefWidth="761.0">
+         <children>
+            <ImageView fx:id="imageGPS" fitHeight="400.0" fitWidth="400.0" layoutX="181.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="txtName" layoutX="181.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" wrappingWidth="400.0" />
+            <Text fx:id="txtAddress" layoutX="181.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Direccion" wrappingWidth="440.619140625" />
+            <Text fx:id="txtId" layoutX="181.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="440.619140625" />
+            <Text fx:id="txtUpdate" layoutX="181.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LastUpdate" wrappingWidth="440.619140625" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
