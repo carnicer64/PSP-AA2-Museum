@@ -11,15 +11,13 @@
 <VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
       <AnchorPane prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button fx:id="btSearch" layoutX="272.0" layoutY="31.0" mnemonicParsing="false" text="Search" />
             <ListView fx:id="objectList" layoutX="15.0" layoutY="71.0" prefHeight="259.0" prefWidth="569.0" />
-            <TextField fx:id="txtField" layoutX="15.0" layoutY="31.0" prefHeight="25.0" prefWidth="232.0" />
-            <Button fx:id="btBack" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" text="back" />
-            <Button fx:id="btNext" layoutX="67.0" layoutY="345.0" mnemonicParsing="false" text="next" />
-         <Button fx:id="btBuildings" layoutX="483.0" layoutY="31.0" mnemonicParsing="false" onAction="#loadBuildings" prefHeight="25.0" prefWidth="87.0" text="Buildings" />
-         <Text fx:id="txtPage" layoutX="119.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paginacion" />
-         <Text fx:id="txtRecords" layoutX="527.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total" />
-         <ProgressBar fx:id="pbLoad" layoutX="229.0" layoutY="347.0" prefWidth="200.0" progress="0.0" />
+            <TextField fx:id="txtField" layoutX="97.0" layoutY="31.0" prefHeight="25.0" prefWidth="232.0" />
+         <Button fx:id="btBuildings" layoutX="362.0" layoutY="31.0" mnemonicParsing="false" onAction="#loadBuildings" prefHeight="25.0" prefWidth="87.0" text="Buildings" />
+         <Text fx:id="txtPage" layoutX="119.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress bar:" />
+         <ProgressBar fx:id="pbLoad" layoutX="200.0" layoutY="348.0" prefWidth="200.0" progress="0.0" />
+         <Text layoutX="45.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="87.0" />
+         <Button fx:id="btExport" layoutX="497.0" layoutY="31.0" mnemonicParsing="false" onAction="#exportData" prefHeight="25.0" prefWidth="87.0" text="Export Data" />
          </children>
       </AnchorPane>
 </VBox>
