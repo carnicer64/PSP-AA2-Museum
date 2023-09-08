@@ -63,7 +63,6 @@ public class BuildingDetailController implements Initializable {
     }
 
     private Image getImage(Double longitude, Double latitude) throws IOException {
-        //https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/-122.4241,37.78,15.25,0,0/400x400?access_token=pk.eyJ1IjoiY2FybmljZXI2NCIsImEiOiJjbGw1YXcxd3MwZzlhM2ZvMWZvdTNhenByIn0.tI8VekhNW-x79aoIMV7nyA
         String url = "https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/" + longitude + "," + latitude + ",15.25,0,0/400x400?access_token=pk.eyJ1IjoiY2FybmljZXI2NCIsImEiOiJjbGw1YXcxd3MwZzlhM2ZvMWZvdTNhenByIn0.tI8VekhNW-x79aoIMV7nyA";
         URL imageUrl = new URL(url);
         InputStream inputStream = imageUrl.openStream();

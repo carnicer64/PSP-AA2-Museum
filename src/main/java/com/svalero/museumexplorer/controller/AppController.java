@@ -1,11 +1,15 @@
 package com.svalero.museumexplorer.controller;
 
-
 import com.svalero.museumexplorer.model.Data;
 import com.svalero.museumexplorer.model.Record;
+import com.svalero.museumexplorer.task.ExportDataTask;
 import com.svalero.museumexplorer.task.LoadDataTask;
+import com.svalero.museumexplorer.task.LoadRecordsTask;
 import com.svalero.museumexplorer.util.R;
 import io.reactivex.functions.Consumer;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,15 +22,20 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Predicate;
 
 public class AppController implements Initializable {
     @FXML
@@ -40,20 +49,27 @@ public class AppController implements Initializable {
     @FXML
     public Button btBuildings;
     @FXML
+    public Button btExport;
+    @FXML
     public Text txtPage;
     @FXML
     public Text txtRecords;
     @FXML
     public ProgressBar pbLoad;
     @FXML
-    public ListView objectList;
+    public ListView<Record> objectList;
     public ObservableList<Record> recordObservableList;
+    public ObservableList<Record> fullRecordObservableList;
     public LoadDataTask loadDataTask;
+    public LoadRecordsTask loadRecordTask;
+    public ExportDataTask exportDataTask;
+    public Data data;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recordObservableList   = FXCollections.observableArrayList();
+        fullRecordObservableList = FXCollections.observableArrayList();
 
         objectList.setCellFactory(new Callback<ListView<Record>, ListCell<Record>>() {
             @Override
@@ -76,16 +92,24 @@ public class AppController implements Initializable {
 
         String apikey = loadApiKey();
         Consumer<Data> dataConsumer = (data) -> {
-            for(Record record: data.getRecords()){
-                recordObservableList.add(record);
-                objectList.setItems(recordObservableList);
-                objectList.refresh();
-                Thread.sleep(200);
-            }
+            this.data = data;
         };
 
         loadDataTask = new LoadDataTask(10, 1, apikey, dataConsumer);
         new Thread(loadDataTask).start();
+
+        Consumer<Record> recordConsumer = (record) -> {
+                recordObservableList.add(record);
+                fullRecordObservableList.add(record);
+                objectList.setItems(recordObservableList);
+                objectList.refresh();
+                Thread.sleep(200);
+                double progress = pbLoad.getProgress();
+                pbLoad.setProgress(progress + 0.1);
+        };
+
+        loadRecordTask = new LoadRecordsTask(10, 1, apikey, recordConsumer);
+        new Thread(loadRecordTask).start();
 
         objectList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -112,8 +136,23 @@ public class AppController implements Initializable {
             }
         });
 
+        // Busqueda o filtrado de datos
 
-        //https://api.harvardartmuseums.org/object?size=5&page=1&apikey=59d0cdd5-36e6-4805-a86a-e0a6a3e791a0
+        txtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String anterior, String nuevo) {
+                if(nuevo.length() != 0){
+                    Predicate<Record> filter = record -> record.getTitle().contains(nuevo);
+                    recordObservableList = fullRecordObservableList;
+                    recordObservableList = recordObservableList.filtered(filter);
+                } else {
+                    recordObservableList = fullRecordObservableList;
+                }
+                objectList.setItems(recordObservableList);
+                objectList.refresh();
+            }
+        });
+
     }
 
     public String loadApiKey(){
@@ -150,5 +189,39 @@ public class AppController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("Building List");
         stage.show();
+    }
+
+    //Salia ERROR: No es un hilo de JavaFX y aunque se ejecutaba saltaba el error. En vez del completableFuture.get he usado exceptionally
+
+    @FXML
+    public void exportData(ActionEvent actionEvent) throws InterruptedException {
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(objectList.getScene().getWindow());
+
+        if(file != null){
+            exportDataTask = new ExportDataTask(recordObservableList, file);
+
+        }
+
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> {
+            exportDataTask.run();
+            return exportDataTask.getValue();
+        });
+
+        completableFuture.exceptionally(result -> {
+            Platform.runLater(() -> {
+                Alert alert;
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Data exported");
+                alert.setHeaderText("Records exported succesfully");
+                alert.setContentText("Check destination folder");
+                alert.showAndWait();
+            });
+            return null;
+        });
     }
 }

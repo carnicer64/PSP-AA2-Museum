@@ -1,32 +1,31 @@
 package com.svalero.museumexplorer.task;
 
-import com.svalero.museumexplorer.model.buildings.Building;
-import com.svalero.museumexplorer.service.MuseumApi;
 import com.svalero.museumexplorer.service.MuseumApiService;
 import io.reactivex.functions.Consumer;
 import javafx.concurrent.Task;
+import com.svalero.museumexplorer.model.Record;
 
-// TASK mostrar lista de edificios
+//TASK mostrar lista de datos
 
-public class LoadBuildingTask extends Task<Integer> {
+public class LoadRecordsTask extends Task<Integer> {
 
-    private Consumer<Building> consumer;
+    private Consumer<Record> consumer;
     private Integer size;
     private Integer page;
     private String apikey;
 
-    public LoadBuildingTask(Consumer<Building> consumer, Integer size, Integer page, String apikey) {
-        this.consumer = consumer;
+    public LoadRecordsTask(Integer size, Integer page, String apikey, Consumer<Record> consumer){
         this.size = size;
         this.page = page;
         this.apikey = apikey;
+        this.consumer = consumer;
     }
+
 
     @Override
     protected Integer call() throws Exception {
         MuseumApiService museumApiService = new MuseumApiService();
-        museumApiService.getAllBuildings(size, page, apikey).subscribe(consumer);
+        museumApiService.getAllRecords(size, page, apikey).subscribe(consumer);
         return null;
     }
 }
-

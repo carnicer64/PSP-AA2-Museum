@@ -1,4 +1,5 @@
 com/svalero/museumexplorer/model/Person.class
+com/svalero/museumexplorer/task/LoadRecordsTask.class
 com/svalero/museumexplorer/task/LoadDataTask.class
 com/svalero/museumexplorer/controller/ObjectView.class
 com/svalero/museumexplorer/model/Worktype.class
@@ -17,11 +18,14 @@ com/svalero/museumexplorer/model/buildings/Record.class
 com/svalero/museumexplorer/task/LoadBuildingTask.class
 com/svalero/museumexplorer/model/Coins.class
 com/svalero/museumexplorer/App.class
+com/svalero/museumexplorer/util/ZipCompressor.class
 com/svalero/museumexplorer/controller/AppController$1$1.class
+com/svalero/museumexplorer/task/ExportDataTask.class
 com/svalero/museumexplorer/util/R.class
 com/svalero/museumexplorer/controller/AppController$1.class
 com/svalero/museumexplorer/model/buildings/Building.class
 com/svalero/museumexplorer/controller/AppController.class
+com/svalero/museumexplorer/controller/AppController$3.class
 com/svalero/museumexplorer/service/MuseumApiService.class
 com/svalero/museumexplorer/controller/BuildingViewController$1$1.class
 com/svalero/museumexplorer/controller/BuildingViewController$1.class

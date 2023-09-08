@@ -3,6 +3,7 @@ package com.svalero.museumexplorer.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.svalero.museumexplorer.model.Data;
+import com.svalero.museumexplorer.model.Record;
 import com.svalero.museumexplorer.model.buildings.Building;
 import io.reactivex.Observable;
 
@@ -38,6 +39,10 @@ public class MuseumApiService {
 
     public Observable<Data> getAllObjects(Integer size, Integer page, String apikey){
         return this.museumApi.getData(size, page, apikey);
+    }
+
+    public Observable<Record> getAllRecords(Integer size, Integer page, String apikey){
+        return this.museumApi.getData(size, page, apikey).map(Data::getRecords).flatMapIterable(records -> records);
     }
 
     public Observable<Building> getAllBuildings(Integer size, Integer page, String apikey){
