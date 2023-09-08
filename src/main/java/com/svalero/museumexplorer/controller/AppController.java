@@ -136,6 +136,8 @@ public class AppController implements Initializable {
             }
         });
 
+        // Busqueda o filtrado de datos
+
         txtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String anterior, String nuevo) {
@@ -188,6 +190,8 @@ public class AppController implements Initializable {
         stage.setTitle("Building List");
         stage.show();
     }
+
+    //Salia ERROR: No es un hilo de JavaFX y aunque se ejecutaba saltaba el error. En vez del completableFuture.get he usado exceptionally
 
     @FXML
     public void exportData(ActionEvent actionEvent) throws InterruptedException {

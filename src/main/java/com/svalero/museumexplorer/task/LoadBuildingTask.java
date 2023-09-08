@@ -6,6 +6,8 @@ import com.svalero.museumexplorer.service.MuseumApiService;
 import io.reactivex.functions.Consumer;
 import javafx.concurrent.Task;
 
+// TASK mostrar lista de edificios
+
 public class LoadBuildingTask extends Task<Integer> {
 
     private Consumer<Building> consumer;

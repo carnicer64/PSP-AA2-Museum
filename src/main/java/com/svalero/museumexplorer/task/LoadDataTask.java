@@ -5,6 +5,8 @@ import com.svalero.museumexplorer.service.MuseumApiService;
 import io.reactivex.functions.Consumer;
 import javafx.concurrent.Task;
 
+//TASK mostrar un objeto
+
 public class LoadDataTask extends Task<Integer> {
 
     private Consumer<Data> consumer;

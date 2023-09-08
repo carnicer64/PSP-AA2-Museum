@@ -5,6 +5,8 @@ import io.reactivex.functions.Consumer;
 import javafx.concurrent.Task;
 import com.svalero.museumexplorer.model.Record;
 
+//TASK mostrar lista de datos
+
 public class LoadRecordsTask extends Task<Integer> {
 
     private Consumer<Record> consumer;
